@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript">
+			 
+			$ = parent.$;
+			
+			$(window).load(function() 
+			{
+				$('#myButton', document).on('click', function(){
+						$.ventanaModal('','Mensaje desde el iframe' , 'Título ventana Iframe', [{funcion:'PostBack', texto:'PBack frame', contexto: window},{funcion:'PostBack', texto:'PBack Padre', contexto: parent},{funcion:'cerrar', texto:'Ok'}]);
+				});		
+			});
+			
+			function __doPostBack(myId){alert('Postback de un elemento del iframe '+myId)};
+			
+
+		</script>
+		
+	</head>
+	<body>
+
+		<div id="myDiv">Iframe </div>
+		<input id="myButton" type ="button" value="Abrir dialogo modal" />
+	</body>
+</html>
