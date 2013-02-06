@@ -74,6 +74,17 @@
     function registrarEventos(){ 
         $('body').on('load', methods['ocultar']);
         $(document).on('submit', 'form', methods['init']);
+
+        // vamos a hacer un hook de la función postback original para obligarle a que muestre la barra de carga
+        if( typeof window['__doPostBack'] == 'function' ){
+            var postBackOriginal = window['__doPostBack'];
+            var nuevoPostBack = function (eventTarget, eventArgument) {
+                methods['init'];
+                return postBackOriginal(eventTarget, eventArgument);
+            };
+            window['__doPostBack'] = nuevoPostBack;
+        }
+
     }
     if(automatico)registrarEventos();
     

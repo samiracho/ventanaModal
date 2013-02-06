@@ -23,19 +23,19 @@
  *
  *  Función:       $.ventanaModal(tipo, mensaje, titulo, boton1, boton2)
  *  Descripción:   Muestra una ventana modal.
- *  Devuelve:    Nada   
+ *  Devuelve:      Nada   
  *  Parámetros:    
  *               tipo        - Tipo de ventana. Puede ser: iframe, info, alerta, error, ok, siNo. info, alerta, error y ok muestran solo un botón "Aceptar". iframe no muestra botones por defecto.
- *               mensaje    - Mensaje que mostrará la ventana.
- *              titulo      - Título de la ventana.
- *              boton1      - Función que se ejecutará cuando se haga click sobre el botón 1. 
+ *               mensaje     - Mensaje que mostrará la ventana.
+ *               titulo      - Título de la ventana.
+ *               boton1      - Función que se ejecutará cuando se haga click sobre el botón 1. 
  *                            Puede tomar cuatro valores:
  *                              Si se indica la cadena vacía '' o 'cerrar' cerrará la ventana y no hará nada más.
  *                              Si se indica una función javascript p.ej function(){alert('hola')}, ejecutará esa función.
  *                              Si se indica la id única de un webform, ejecutará su postback. p.ej '<%=button1.UniqueID%>'
  *                               Si se indica un objeto o un array de objetos de tipo botón, se crearán esos botones. 
  *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de un iframe, haremos {'funcion':'<%=miBoton.UniqueID%>', 'texto:''Postback Iframe', con'texto:' window}
- *                                      P.ej: Si queremos crear un botón que llame a un postback de un webform de la página principal, haremos {'funcion':'<%=miBoton2.UniqueID%>', 'texto:''Postback Pag Principal'}
+ *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de la página principal, haremos {'funcion':'<%=miBoton2.UniqueID%>', 'texto:''Postback Pag Principal'}
  *                                  P.ej: También podemos indicar una lista de botones [{'funcion':'cerrar', 'texto:''Salir'},{'funcion':'cerrar', 'texto:''Salir'}]
  *              boton2 - Igual que boton1
  *                              
@@ -473,18 +473,23 @@
                 // cuando el iframe se haya cargado ocultamos la máscara de carga
                 $iFrame.on('load', function(){
                     if(tipoMascaraCarga == 'function'){
-                        $['mascaraCarga']('ocultar');           
+                        $['mascaraCarga']('ocultar');                       
+
                         $iFrame.contents().find('form').on('submit',function(){
                             $['mascaraCarga']();
                         });
+
+                        // vamos a hacer un hook de la función postback original para obligarle a que muestre la barra de carga
+                        if($iFrame[0]['contentWindow']){
+                            var postBackOriginal = $iFrame[0]['contentWindow']['__doPostBack'];
+                            var nuevoPostBack = function (eventTarget, eventArgument) {
+                                $['mascaraCarga']();
+                                return postBackOriginal(eventTarget, eventArgument);
+                            };
+                            $iFrame[0]['contentWindow']['__doPostBack'] = nuevoPostBack;
+                        }
                     }
                 });
-                
-                // si en un tiempo no se ha llamado al evento onload del iframe
-                setTimeout(function(){
-                    $['mascaraCarga']('cerrar');
-                    $.error('Se agotó el tiempo de espera')
-                },20000);
             }
             ventana['el']['$mensaje'].append($iFrame);
         }

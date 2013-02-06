@@ -58,11 +58,11 @@
 				
 						var tipos = ['info','ok','siNo','error', 'alerta'];
 						var timeOut = 0;
-						for(i = 0; i < 100; i++){
+						for(i = 0; i < 1000; i++){
 							timeOut += 100;
 							setTimeout(function() {$.ventanaModal( tipos[Math.floor(Math.random()*5)] , men)}, timeOut);
 							timeOut += 100;
-							setTimeout(function() {$.ventanaModal.cerrar();}, timeOut);		
+							setTimeout(function() {$.ventanaModal('cerrar');}, timeOut);		
 						}
 				});
 				
