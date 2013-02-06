@@ -5,6 +5,8 @@
 // @externs_url http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.js
 // ==/ClosureCompiler==
 
+/// <reference path="../jquery-1.9.0-vsdoc.js" />
+
 /**
  * @fileoverview Plugin para mostrar una animación de carga en la página.
  * @version 0.1
@@ -15,10 +17,11 @@
  *  si la variable automatico == true, la barra de carga se mostrará automáticamente cuando se envíe un formulario (postback, submit e.t.c) y se ocultará cuando una página esté cargada completamente.
 *
 */
+
 ;(function( $ ){
 
     var nombrePlugin   = 'mascaraCarga';
-    var imagenCarga    = 'imagenes/cargando.gif';
+    var imagenCarga    = 'Scripts/ventanaModal/imagenes/cargando.gif';
     var automatico     = true; // true para que se muestre automáticamente la máscara de carga al hacer un postback
     var $imagen        = $('<img>',{'src': imagenCarga ,'style': 'position: absolute;top: 50%;left: 50%;margin-top:-20px;margin-left:-64px'});
     var $mascara       = $('<div>',{'style' : 'position:fixed;left:0;top:0;opacity:0.5;filter:alpha(opacity=50);z-index:999999;display:none;background-color: #000;'}).append($imagen);
@@ -45,10 +48,16 @@
     /**
     * ventanaModal - Plugin jQuery para construir ventanas emergentes. 
     *
-    * @class myAwesomePlugin
+    * @class mascaraCarga
     * @memberOf jQuery
     */
     $[nombrePlugin] = function( method ) {
+
+    /// <summary>
+    /// Muestra una máscara de carga. Por defecto se mostrará automáticamente cuando se envíe información al servidor. (PostBack, submit e.t.c)
+    /// </summary>
+    /// <param name="method" type="string">Con el parámetro 'ocultar' ocultará la máscara. Sin parámetros la mostrará.</param>
+
         if ( methods[method] ) {
             return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
         } else if ( typeof method === 'object' || ! method ) {

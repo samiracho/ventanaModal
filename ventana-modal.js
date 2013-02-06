@@ -5,17 +5,17 @@
 // @externs_url http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.js
 // ==/ClosureCompiler==
 
+/// <reference path="../jquery-1.9.0-vsdoc.js" />
+
 /**
  * @fileoverview Plugin jQuery patrón singleton que permite crear Ventanas e iframes.
  * @version 0.1
  * @author Sami Racho 01/02/2013
  *  
  *
- *
  *  Se respeta el encadenamiento de selectores de jQuery, por lo que se pueden hacer llamadas del tipo
  *  $('#myButton').ventanaModal('alerta').css('color', 'red'); "(Esto hará que al hacer click sobre el botón se abra una ventana de alerta y cambiará el color de las letras del botón a rojo)"
  *  También se puede llamar directamente al plugin mediante $.ventanaModal()
- *  En el caso de mostrar un iframe, pondrá una imagen de carga hasta que se haya cargado completamente.
  *
  *  --------------------------------------------------------------------------------------------------------------------------------------------
  *  Cuadros de diálogo preconfigurados:
@@ -25,8 +25,8 @@
  *  Descripción:   Muestra una ventana modal.
  *  Devuelve:      Nada   
  *  Parámetros:    
- *               tipo        - Tipo de ventana. Puede ser: iframe, info, alerta, error, ok, siNo. info, alerta, error y ok muestran solo un botón "Aceptar". iframe no muestra botones por defecto.
- *               mensaje     - Mensaje que mostrará la ventana.
+ *               tipo        - Tipo de ventana. Puede ser: iframe, info, alerta, error, ok, siNo. info, alerta, error y ok muestran solo un botón "Aceptar" que por defecto cerrará la ventana. iframe no muestra botones por defecto.
+ *               mensaje     - Mensaje que mostrará la ventana. En caso de ser un iframe será la URL del iframe
  *               titulo      - Título de la ventana.
  *               boton1      - Función que se ejecutará cuando se haga click sobre el botón 1. 
  *                            Puede tomar cuatro valores:
@@ -34,9 +34,9 @@
  *                              Si se indica una función javascript p.ej function(){alert('hola')}, ejecutará esa función.
  *                              Si se indica la id única de un webform, ejecutará su postback. p.ej '<%=button1.UniqueID%>'
  *                               Si se indica un objeto o un array de objetos de tipo botón, se crearán esos botones. 
- *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de un iframe, haremos {'funcion':'<%=miBoton.UniqueID%>', 'texto:''Postback Iframe', con'texto:' window}
- *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de la página principal, haremos {'funcion':'<%=miBoton2.UniqueID%>', 'texto:''Postback Pag Principal'}
- *                                  P.ej: También podemos indicar una lista de botones [{'funcion':'cerrar', 'texto:''Salir'},{'funcion':'cerrar', 'texto:''Salir'}]
+ *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de un iframe, haremos {'funcion':'<%=miBoton.UniqueID%>', 'texto:''Postback Iframe', 'contexto:' window}
+ *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de la página principal, haremos {'funcion':'<%=miBoton2.UniqueID%>', 'texto:'Postback Pag Principal'}
+ *                                  P.ej: También podemos indicar una lista de botones [{'funcion':'cerrar', 'texto:''Salir'},{'funcion':'cerrar', 'texto:''Salir2'}]
  *              boton2 - Igual que boton1
  *                              
  *
@@ -53,10 +53,10 @@
  *                      ancho: 300,                               // Ancho en píxeles de la ventana
  *                      alto: 250,                                // Alto en píxeles de la ventana
  *                      icono: $.ventanaModal.imagen('info'),     // clase css con el icono que queremos mostrar. Pueden ser siNo, alerta, ok, error, info, o una clase personalizada.
- *                                                                 // Si queremos un icono personalizado debemos crear una clase css p.ej .ventanaModalMiIcono{ background: url('imagenes/miIcono.png')}
- *                                                                 // y asignarla. icono: 'ventanaModalMiIcono'  
- *                       botones:[                                 // Lista de botones. Debemos indicar la función y el texto del botón. {'funcion':'', 'texto:' '' , con'texto:'''}
- *                                                                 // Como podemos ver en el ejemplo, es posible especificar una función javascript, un postBack, o 'cerrar' para cerrar la ventana emergente.
+ *                                                                // Si queremos un icono personalizado debemos crear una clase css p.ej .ventanaModalMiIcono{ background: url('imagenes/miIcono.png')}
+ *                                                                // y asignarla. icono: 'ventanaModalMiIcono'  
+ *                       botones:[                                // Lista de botones. Debemos indicar la función y el texto del botón. {'funcion':'', 'texto:' '' , 'contexto:''}
+ *                                                                // Como podemos ver en el ejemplo, es posible especificar una función javascript, un postBack, o 'cerrar' para cerrar la ventana emergente.
  *                                                                // También es posible especificar el contexto. Por defecto es document.
  *                            {'funcion':'cerrar', 'texto:''Salir'},
  *                            {'funcion':'<%=button1.UniqueID%>', 'texto:''Mi Postback'},
@@ -72,13 +72,12 @@
  * 
  *  Función:       $.ventanaModal('get', selector)
  *  Descripción:   Devuelve un objeto jquery de la ventana emergente.
- *  Devuelve:    Un objeto Jquery   
+ *  Devuelve:      Un objeto Jquery   
  *  Parámetros:    
  *               selector    - Puede ser: 'dialogo', 'titulo', 'mensaje', 'mascara', 'icono', 'botones'
  *                                        'dialogo' Devuelve un objeto jquery de toda la ventana emergente.
  *                                        'titulo'  Devuelve un objeto jquery del div del título de la ventana.
  *                                        'mensaje' Devuelve un objeto jquery del div del mensaje.
- *                                        'mascara' Devuelve un objeto jquery de la máscara gris que se pone detrás de la ventana emergente.
  *                                        'icono'   Devuelve un objeto jquery del div del icono.
  *                                        'botones' Devuelve un objeto jquery del div de los botones.
  *
@@ -99,7 +98,7 @@
  *  <input type ="button" runat="server" value="OK" onclientclick="$.ventanaModal()" />
  *
  *  Mediante un selector jQuery:
- *  $('#myButton').ventanaModal( 'alerta' , 'Mensaje', '<%=button1.UniqueID%>')
+ *  $('#myButton').ventanaModal( 'alerta' , 'Al hacer click hará el postback de button1', 'Título', '<%=button1.UniqueID%>')
  *
  *  Llamándolo desde una función C# (Page_Load e.t.c)
  *  ClientScript.RegisterClientScriptBlock(GetType(), "Javascript", "<script>$.ventanaModal('alerta','Mensaje', 'Título')</script>");
@@ -112,7 +111,6 @@
     var ventanaActiva  = null;
     var $mascara       = $('<div>').attr({'class': 'ventanaModalMascara'});
     var $window        = $(window);
-    
     // configuración por defecto
     /** @dict */
     var porDefecto  = {
@@ -191,7 +189,7 @@
                 switch (ventana['tipo']) {
                 
                     case 'siNo':
-                        ventana['mensaje']   = ventana['mensaje']  || '¿Está seguro de que desea continuar?';
+                        ventana['mensaje']   = ventana['mensaje']  || '¿Est&aacute; seguro de que desea continuar?';
                         ventana['titulo']    = ventana['titulo']   || 'Confirmación';
                         ventana['icono']     = imagenes['siNo'];
                         if(tipoBoton1 != 'object') ventana['botones'].push({'funcion': boton1,'texto':'Si'});
@@ -211,8 +209,8 @@
                         if(tipoBoton1 != 'object') ventana['botones'].push({'funcion': boton1,'texto': 'Aceptar'});
                         break;
                     case 'info':
-                        ventana['mensaje']   = ventana['mensaje'] || 'Información';
-                        ventana['titulo']    = ventana['titulo']  || 'Información';
+                        ventana['mensaje']   = ventana['mensaje'] || 'Informaci&oacute;n';
+                        ventana['titulo']    = ventana['titulo']  || 'Informaci&oacute;n';
                         ventana['icono']     = imagenes['info'];
                         if(tipoBoton1 != 'object') ventana['botones'].push({'funcion': boton1,'texto': 'Aceptar'});
                         break;
@@ -230,9 +228,9 @@
                         ventana['alto']      = ventana['alto']    || 520;
                         break;
                     default:
-                        ventana['icono']     = ventana['icono']     || imagenes['info'];
-                        if(tipoBoton1 != 'object') ventana['botones'].push({'funcion': boton1,'texto' :'Aceptar'});
-                        if(tipoBoton2 == 'string') ventana['botones'].push({'funcion': boton2,'texto': 'Cancelar'});
+                        ventana['icono']     = ventana['icono']   || imagenes['info'];
+                        if(tipoBoton1 == 'object' || tipoBoton1 == 'string' ) ventana['botones'].push({'funcion': boton1,'texto' :'Aceptar'});
+                        if(tipoBoton2 == 'object' || tipoBoton1 == 'string' ) ventana['botones'].push({'funcion': boton2,'texto': 'Cancelar'});
                         break;
                 }
                 
@@ -263,13 +261,27 @@
     /**
     * ventanaModal - Plugin jQuery para construir ventanas emergentes. 
     *
-    * @class myAwesomePlugin
+    * @class ventanaModal
     * @memberOf jQuery.fn
     * @memberOf jQuery
     */
-    $[nombrePlugin] =  $['fn'][nombrePlugin] = function( method ) {
-        if ( methods[method] ) {
-            return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+
+    $[nombrePlugin] =  $['fn'][nombrePlugin] = function( config, mensaje, titulo, boton1, boton2 ) {
+    /// <summary>
+    /// Muestra una ventana modal. Todos los parámetros son opcionales. Documentación y ejemplos en ventana-modal.js
+    /// </summary>
+    /// <param name="config" type="string">Puede ser: Tipo de ventana 'iframe', 'info', 'alerta', 'error', 'ok', 'siNo'. Para cerrar la ventana 'cerrar'. Objeto javascript de configuración. Llamada a función 'get', 'imagen' </param>
+    /// <param name="mensaje" type="string">
+    ///    Mensaje que mostrará la ventana. En caso de ser un iframe será la URL del iframe. 
+    ///    Si el primer parámetro es 'get', el selector puede ser 'dialogo', 'titulo', 'mensaje', 'mascara', 'icono', 'botones' para obtener el objeto jQuery correspondiente.
+    ///    Si el primer parámetro es 'imagen', puede ser 'alerta', 'siNo', 'error', 'ok', 'info' para obtener la clase css correspondiente.
+    /// </param>
+    /// <param name="titulo" type="string">Título de la ventana, null para no mostrar título.</param>
+    /// <param name="boton1" type="string">Acción que realizará el botón. Valores posibles: 'cerrar', UniqueID del Webform para ejecutar su postBack, función javascript.</param>
+    /// <param name="boton2" type="string">Acción que realizará el botón. Valores posibles: 'cerrar', UniqueID del Webform para ejecutar su postBack, función javascript.</param>
+
+        if ( methods[config] ) {
+            return methods[config].apply( this, Array.prototype.slice.call( arguments, 1 ));
         } else {
             return methods['init'].apply( this, arguments );
         }
@@ -465,7 +477,7 @@
             var $iFrame  = $('<iframe>').attr({'src': ventana['mensaje'],'frameborder':0,'scroll':'no'});
             
             if(tipoMascaraCarga == 'undefined'){
-                $.error('No se ha encontrado el plugin de máscara de carga:$.mascaraCarga()')
+                $.error('No se ha encontrado el plugin de m&aacute;scara de carga:$.mascaraCarga()')
             }else {
                 // mostramos la máscara de carga
                 $['mascaraCarga'](); 
