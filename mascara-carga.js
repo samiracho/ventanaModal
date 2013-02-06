@@ -6,20 +6,20 @@
 // ==/ClosureCompiler==
 
 /**
- * @fileoverview Plugin para mostrar una animaciÛn de carga en la p·gina.
+ * @fileoverview Plugin para mostrar una animaci√≥n de carga en la p√°gina.
  * @version 0.1
  * @author Sami Racho 04/02/2013
  *
- *  $.mascaraCarga(); MÈtodo para mostar la barra de carga
- *  $.mascaraCarga('ocultar'); MÈtodo para ocultar la barra de carga
- *  si la variable automatico == true, la barra de carga se mostrar· autom·ticamente cuando se envÌe un formulario (postback, submit e.t.c) y se ocultar· cuando una p·gina estÈ cargada completamente.
+ *  $.mascaraCarga(); M√©todo para mostar la barra de carga
+ *  $.mascaraCarga('ocultar'); M√©todo para ocultar la barra de carga
+ *  si la variable automatico == true, la barra de carga se mostrar√° autom√°ticamente cuando se env√≠e un formulario (postback, submit e.t.c) y se ocultar√° cuando una p√°gina est√© cargada completamente.
 *
 */
 ;(function( $ ){
 
 	var nombrePlugin   = 'mascaraCarga';
 	var imagenCarga    = 'imagenes/cargando.gif';
-	var automatico     = true; // true para que se muestre autom·ticamente la m·scara de carga al hacer un postback
+	var automatico     = true; // true para que se muestre autom√°ticamente la m√°scara de carga al hacer un postback
 	var $imagen        = $('<img>',{'src': imagenCarga ,'style': 'position: absolute;top: 50%;left: 50%;margin-top:-20px;margin-left:-64px'});
 	var $mascara       = $('<div>',{'style' : 'position:fixed;left:0;top:0;opacity:0.5;filter:alpha(opacity=50);z-index:999999;display:none;background-color: #000;'}).append($imagen);
 	var mascaraCreada  = false;
@@ -33,7 +33,7 @@
 			}
 			$mascara.show();
 			redimensionar();
-			setTimeout(function(){$imagen.attr("src", imagenCarga);},10); /* Hay que engaÒar a internet explorer para que no congele la animaciÛn de la barra de carga*/
+			setTimeout(function(){$imagen.attr("src", imagenCarga);},10); /* Hay que enga√±ar a internet explorer para que no congele la animaci√≥n de la barra de carga*/
 			return this;
 		},
 		'ocultar' : function( ) {
@@ -59,7 +59,7 @@
 	};
 
 	/**
-	 * Ajusta la m·scara al tamaÒo de la ventana.
+	 * Ajusta la m√°scara al tama√±o de la ventana.
 	 * @private
 	 */	
 	function redimensionar() {
@@ -68,7 +68,7 @@
 	};
 	
 	/**
-	 * Registra los eventos onload y onsbumit para mostrar y ocultar autom·ticamente la m·scara.
+	 * Registra los eventos onload y onsbumit para mostrar y ocultar autom√°ticamente la m√°scara.
 	 * @private
 	 */	
 	function registrarEventos(){ 

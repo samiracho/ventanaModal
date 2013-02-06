@@ -1,7 +1,7 @@
-﻿// ==ClosureCompiler==
+// ==ClosureCompiler==
 // @compilation_level ADVANCED_OPTIMIZATIONS
 // @warning_level QUIET
-// @output_file_name ventana-modal-v2.min.js
+// @output_file_name ventana-modal.min.js
 // @externs_url http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.js
 // ==/ClosureCompiler==
 
@@ -353,7 +353,7 @@
     };
 	
 	/**
-	 * Función que se ejecuta cuando el usuario aprieta la tecla esc.
+	 * Función para crear un botón.
 	 * @return {Object} boton
 	 * @param {Object} btn  Ej: {funcion:'cerrar', texto:'', contexto: document } Si no se especifica contexto, será por defecto document
 	 * @param {Object} ventana
@@ -479,6 +479,12 @@
 						});
 					}
 				});
+				
+				// si en un tiempo no se ha llamado al evento onload del iframe
+				setTimeout(function(){
+					$['mascaraCarga']('cerrar');
+					$.error('Se agotó el tiempo de espera')
+				},20000);
 			}
 			ventana['el']['$mensaje'].append($iFrame);
 		}

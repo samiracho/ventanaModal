@@ -1,4 +1,4 @@
-/* M·scara gris que se pone detr·s de la ventana modal*/
+/* M√°scara gris que se pone detr√°s de la ventana modal*/
 .ventanaModalMascara{
 	position:fixed;
 	left:0;
@@ -9,13 +9,13 @@
 	z-index:9997;
 }
 
-
 .ventanaModal{
 	position : absolute;
 	font-family:'Segoe UI', Tahoma, Helvetica, Sans-Serif;
 	font-size:13px;
 	background-color:#fff;
 	z-index:9998;
+	border:1px solid #666;
 }
 
 .ventanaModalTitulo{
