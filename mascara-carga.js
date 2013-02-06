@@ -17,64 +17,64 @@
 */
 ;(function( $ ){
 
-	var nombrePlugin   = 'mascaraCarga';
-	var imagenCarga    = 'imagenes/cargando.gif';
-	var automatico     = true; // true para que se muestre automáticamente la máscara de carga al hacer un postback
-	var $imagen        = $('<img>',{'src': imagenCarga ,'style': 'position: absolute;top: 50%;left: 50%;margin-top:-20px;margin-left:-64px'});
-	var $mascara       = $('<div>',{'style' : 'position:fixed;left:0;top:0;opacity:0.5;filter:alpha(opacity=50);z-index:999999;display:none;background-color: #000;'}).append($imagen);
-	var mascaraCreada  = false;
+    var nombrePlugin   = 'mascaraCarga';
+    var imagenCarga    = 'imagenes/cargando.gif';
+    var automatico     = true; // true para que se muestre automáticamente la máscara de carga al hacer un postback
+    var $imagen        = $('<img>',{'src': imagenCarga ,'style': 'position: absolute;top: 50%;left: 50%;margin-top:-20px;margin-left:-64px'});
+    var $mascara       = $('<div>',{'style' : 'position:fixed;left:0;top:0;opacity:0.5;filter:alpha(opacity=50);z-index:999999;display:none;background-color: #000;'}).append($imagen);
+    var mascaraCreada  = false;
 
-	var methods = {
-		'init' : function( options ) {
-			if(!mascaraCreada){
-				$('body').append($mascara);
-				$(window).on('resize', redimensionar);
-				mascaraCreada = true;
-			}
-			$mascara.show();
-			redimensionar();
-			setTimeout(function(){$imagen.attr("src", imagenCarga);},10); /* Hay que engañar a internet explorer para que no congele la animación de la barra de carga*/
-			return this;
-		},
-		'ocultar' : function( ) {
-			$mascara.hide();
-			return this;
-		}
-	};
+    var methods = {
+        'init' : function( options ) {
+            if(!mascaraCreada){
+                $('body').append($mascara);
+                $(window).on('resize', redimensionar);
+                mascaraCreada = true;
+            }
+            $mascara.show();
+            redimensionar();
+            setTimeout(function(){$imagen.attr("src", imagenCarga);},10); /* Hay que engañar a internet explorer para que no congele la animación de la barra de carga*/
+            return this;
+        },
+        'ocultar' : function( ) {
+            $mascara.hide();
+            return this;
+        }
+    };
 
-	/**
-	* ventanaModal - Plugin jQuery para construir ventanas emergentes. 
-	*
-	* @class myAwesomePlugin
-	* @memberOf jQuery
-	*/
-	$[nombrePlugin] = function( method ) {
-		if ( methods[method] ) {
-			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof method === 'object' || ! method ) {
-				return methods['init'].apply( this, arguments );
-		} else {
-			$.error( 'Method ' +  method + ' does not exist on ' +  nombrePlugin );
-		}
-	};
+    /**
+    * ventanaModal - Plugin jQuery para construir ventanas emergentes. 
+    *
+    * @class myAwesomePlugin
+    * @memberOf jQuery
+    */
+    $[nombrePlugin] = function( method ) {
+        if ( methods[method] ) {
+            return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+                return methods['init'].apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on ' +  nombrePlugin );
+        }
+    };
 
-	/**
-	 * Ajusta la máscara al tamaño de la ventana.
-	 * @private
-	 */	
-	function redimensionar() {
-		var $myWindow = $(window);
-		$mascara.css({'width'  : $myWindow.width(),'height' : $myWindow.height()});
-	};
-	
-	/**
-	 * Registra los eventos onload y onsbumit para mostrar y ocultar automáticamente la máscara.
-	 * @private
-	 */	
-	function registrarEventos(){ 
-		$('body').on('load', methods['ocultar']);
-		$(document).on('submit', 'form', methods['init']);
-	}
-	if(automatico)registrarEventos();
-	
+    /**
+     * Ajusta la máscara al tamaño de la ventana.
+     * @private
+     */ 
+    function redimensionar() {
+        var $myWindow = $(window);
+        $mascara.css({'width'  : $myWindow.width(),'height' : $myWindow.height()});
+    };
+    
+    /**
+     * Registra los eventos onload y onsbumit para mostrar y ocultar automáticamente la máscara.
+     * @private
+     */ 
+    function registrarEventos(){ 
+        $('body').on('load', methods['ocultar']);
+        $(document).on('submit', 'form', methods['init']);
+    }
+    if(automatico)registrarEventos();
+    
 })( jQuery );

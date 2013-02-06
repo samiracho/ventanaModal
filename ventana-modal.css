@@ -1,86 +1,86 @@
 /* Máscara gris que se pone detrás de la ventana modal*/
 .ventanaModalMascara{
-	position:fixed;
-	left:0;
-	top:0;
-	background-color:#000;
-	opacity:0.6;
-	filter:alpha(opacity=60);
-	z-index:9997;
+    position:fixed;
+    left:0;
+    top:0;
+    background-color:#000;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+    z-index:9997;
 }
 
 .ventanaModal{
-	position : absolute;
-	font-family:'Segoe UI', Tahoma, Helvetica, Sans-Serif;
-	font-size:13px;
-	background-color:#fff;
-	z-index:9998;
-	border:1px solid #666;
+    position : absolute;
+    font-family:'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    font-size:13px;
+    background-color:#fff;
+    z-index:9998;
+    border:1px solid #666;
 }
 
 .ventanaModalTitulo{
-	width: auto;
-	padding:6px;
-	font-weight: bold;
-	line-height: 22px;
-	background-color: #1a1a1a;
-	color:#CFCFCF;
-	overflow:hidden;
+    width: auto;
+    padding:6px;
+    font-weight: bold;
+    line-height: 22px;
+    background-color: #1a1a1a;
+    color:#CFCFCF;
+    overflow:hidden;
 }
 
 .ventanaModalMensaje{
-	padding:10px;
-	text-align: justify;
-	width: auto;
-	overflow:auto;
+    padding:10px;
+    text-align: justify;
+    width: auto;
+    overflow:auto;
 }
 
 .ventanaModalMensaje iframe{
-	width: 100%;
-	border: 0px;
-	margin: 0px;
-	padding:0px;
-	height: 99%;
+    width: 100%;
+    border: 0px;
+    margin: 0px;
+    padding:0px;
+    height: 99%;
 }
 
 .ventanaModalIcono{
-	width: 48px;
-	height:48px;
-	margin:10px 0px 10px 10px;
-	float:left;
+    width: 48px;
+    height:48px;
+    margin:10px 0px 10px 10px;
+    float:left;
 }
 
 .ventanaModalBotones{
-	width: auto;
-	text-align: center;
-	padding:4px;
-	clear:both;
-	background-color:#ececef;
+    width: auto;
+    text-align: center;
+    padding:4px;
+    clear:both;
+    background-color:#ececef;
 }
 
 .ventanaModalBotones input{
-	margin:0px 8px 0px 8px;
-	padding: 6px;
-	font-size:12px;
-	min-width:40px;
-	font-weight: bold;
-	background-color:#3f3f3f;
-	color:#CFCFCF;
-	border:0px;
-	overflow:visible; /* corregir anchura ie7 */
+    margin:0px 8px 0px 8px;
+    padding: 6px;
+    font-size:12px;
+    min-width:40px;
+    font-weight: bold;
+    background-color:#3f3f3f;
+    color:#CFCFCF;
+    border:0px;
+    overflow:visible; /* corregir anchura ie7 */
 }
 
 .ventanaModalBotones input:hover{
-	color:#fff;
-	background-color:#000
+    color:#fff;
+    background-color:#000
 }
 
 .ventanaModalCarga{
-	position: absolute;
-	top: 50%;
-	margin-top: -7px;
-	left: 50%;
-	margin-left: -64px;
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    left: 50%;
+    margin-left: -64px;
 }
 
 /* Iconos de las ventanas*/
