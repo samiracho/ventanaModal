@@ -479,7 +479,7 @@
                             $['mascaraCarga']();
                         });
 
-                        // vamos a hacer un hook de la función postback original para obligarle a que muestre la barra de carga
+                        // Vamos a hacer un hook de la función postback original para obligarle a que muestre la barra de carga
                         if($iFrame[0]['contentWindow']){
                             var postBackOriginal = $iFrame[0]['contentWindow']['__doPostBack'];
                             var nuevoPostBack = function (eventTarget, eventArgument) {
