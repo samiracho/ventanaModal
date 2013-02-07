@@ -12,10 +12,12 @@
  * @version 0.1
  * @author Sami Racho 01/02/2013
  *  
- *
  *  Se respeta el encadenamiento de selectores de jQuery, por lo que se pueden hacer llamadas del tipo
  *  $('#myButton').ventanaModal('alerta').css('color', 'red'); "(Esto hará que al hacer click sobre el botón se abra una ventana de alerta y cambiará el color de las letras del botón a rojo)"
  *  También se puede llamar directamente al plugin mediante $.ventanaModal()
+ *
+ *  Nota: Los comentarios @ con formato JSDoc, se han utilizado para que ClosureCompiler pueda comprimir correctamente en modo ADVANCED
+ *
  *
  *  --------------------------------------------------------------------------------------------------------------------------------------------
  *  Cuadros de diálogo preconfigurados:
@@ -258,14 +260,6 @@
         }
     };
     
-    /**
-    * ventanaModal - Plugin jQuery para construir ventanas emergentes. 
-    *
-    * @class ventanaModal
-    * @memberOf jQuery.fn
-    * @memberOf jQuery
-    */
-
     $[nombrePlugin] =  $['fn'][nombrePlugin] = function( config, mensaje, titulo, boton1, boton2 ) {
     /// <summary>
     /// Muestra una ventana modal. Todos los parámetros son opcionales. Documentación y ejemplos en ventana-modal.js

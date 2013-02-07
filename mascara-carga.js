@@ -8,13 +8,21 @@
 /// <reference path="../jquery-1.9.0-vsdoc.js" />
 
 /**
- * @fileoverview Plugin para mostrar una animación de carga en la página.
+ * @fileoverview Plugin para mostrar una animación de carga en la página cuando se envía un formulario.
  * @version 0.1
  * @author Sami Racho 04/02/2013
  *
  *  $.mascaraCarga(); Método para mostar la barra de carga
  *  $.mascaraCarga('ocultar'); Método para ocultar la barra de carga
- *  si la variable automatico == true, la barra de carga se mostrará automáticamente cuando se envíe un formulario (postback, submit e.t.c) y se ocultará cuando una página esté cargada completamente.
+ *  Si en una página en concreto queremos que la barra de carga se muestre en los autoPostBacks debemos poner la variable registrarAutoPostbacks = false, antes del script mascara-carga.js
+ *  También podemos hacerlo desde el code-behind por ejemplo en el Page_Load con:
+ *      
+ *      HtmlGenericControl Include = new HtmlGenericControl("script");
+ *      Include.Attributes.Add("type", "text/javascript");
+ *      Include.InnerHtml = "registrarAutoPostbacks = false";
+ *      this.Page.Header.Controls.AddAt(0,Include);
+ *
+ *  Nota: Los comentarios @ con formato JSDoc, se han utilizado para que ClosureCompiler pueda comprimir correctamente en modo ADVANCED
 *
 */
 
@@ -22,10 +30,13 @@
 
     var nombrePlugin   = 'mascaraCarga';
     var imagenCarga    = 'Scripts/ventanaModal/imagenes/cargando.gif';
-    var automatico     = true; // true para que se muestre automáticamente la máscara de carga al hacer un postback
     var $imagen        = $('<img>',{'src': imagenCarga ,'style': 'position: absolute;top: 50%;left: 50%;margin-top:-20px;margin-left:-64px'});
     var $mascara       = $('<div>',{'style' : 'position:fixed;left:0;top:0;opacity:0.5;filter:alpha(opacity=50);z-index:999999;display:none;background-color: #000;'}).append($imagen);
     var mascaraCreada  = false;
+
+    /** @const */
+    // true para que se muestre automáticamente la máscara de carga al hacer un autoPostBack
+    registrarAutoPostbacks  = (typeof registrarAutoPostbacks !='undefined') ? registrarAutoPostbacks : true; 
 
     var methods = {
         'init' : function( options ) {
@@ -45,12 +56,6 @@
         }
     };
 
-    /**
-    * ventanaModal - Plugin jQuery para construir ventanas emergentes. 
-    *
-    * @class mascaraCarga
-    * @memberOf jQuery
-    */
     $[nombrePlugin] = function( method ) {
 
     /// <summary>
@@ -80,21 +85,25 @@
      * Registra los eventos onload y onsbumit para mostrar y ocultar automáticamente la máscara.
      * @private
      */ 
-    function registrarEventos(){ 
-        $('body').on('load', methods['ocultar']);
-        $(document).on('submit', 'form', methods['init']);
+    $(function() {
+        
+        // ocultamos la máscara si la hubiera
+        methods['ocultar']();
 
-        // vamos a hacer un hook de la función postback original para obligarle a que muestre la barra de carga
-        if( typeof window['__doPostBack'] == 'function' ){
-            var postBackOriginal = window['__doPostBack'];
-            var nuevoPostBack = function (eventTarget, eventArgument) {
-                methods['init'];
-                return postBackOriginal(eventTarget, eventArgument);
-            };
-            window['__doPostBack'] = nuevoPostBack;
+        // registramos el evento submit del formulario
+        $('form').on('submit', methods['init']);
+
+        // Vamos a hacer un hook de la función postback original para obligarle a que muestre la barra de carga en los autoPostBacks
+        if(registrarAutoPostbacks){
+            if( typeof window['__doPostBack'] == 'function' ){
+                var postBackOriginal = window['__doPostBack'];
+                var nuevoPostBack = function (eventTarget, eventArgument) {
+                    methods['init']();
+                    return postBackOriginal(eventTarget, eventArgument);
+                };
+                window['__doPostBack'] = nuevoPostBack;
+            }
         }
-
-    }
-    if(automatico)registrarEventos();
+    });
     
 })( jQuery );
