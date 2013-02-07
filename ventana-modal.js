@@ -12,12 +12,12 @@
  * @version 0.1
  * @author Sami Racho 01/02/2013
  *  
- *  Se respeta el encadenamiento de selectores de jQuery, por lo que se pueden hacer llamadas del tipo
- *  $('#myButton').ventanaModal('alerta').css('color', 'red'); "(Esto hará que al hacer click sobre el botón se abra una ventana de alerta y cambiará el color de las letras del botón a rojo)"
- *  También se puede llamar directamente al plugin mediante $.ventanaModal()
  *
- *  Nota: Los comentarios @ con formato JSDoc, se han utilizado para que ClosureCompiler pueda comprimir correctamente en modo ADVANCED
- *
+ *  Notas: Ejemplos de uso al final de estos comentarios.
+ *         Los comentarios @ con formato JSDoc, se han utilizado para que ClosureCompiler pueda comprimir correctamente en modo ADVANCED
+ *         Se respeta el encadenamiento de selectores de jQuery, por lo que se pueden hacer llamadas del tipo
+ *         $('#myButton').ventanaModal('alerta').css('color', 'red'); "(Esto hará que al hacer click sobre el botón se abra una ventana de alerta y cambiará el color de las letras del botón a rojo)"
+ *         También se puede llamar directamente al plugin mediante $.ventanaModal()       
  *
  *  --------------------------------------------------------------------------------------------------------------------------------------------
  *  Cuadros de diálogo preconfigurados:
@@ -32,12 +32,12 @@
  *               titulo      - Título de la ventana.
  *               boton1      - Función que se ejecutará cuando se haga click sobre el botón 1. 
  *                            Puede tomar cuatro valores:
- *                              Si se indica la cadena vacía '' o 'cerrar' cerrará la ventana y no hará nada más.
+ *                              Si se indica la cadena vacía '' o 'cerrar' el botón cerrará la ventana al hacer click sobre él.
  *                              Si se indica una función javascript p.ej function(){alert('hola')}, ejecutará esa función.
  *                              Si se indica la id única de un webform, ejecutará su postback. p.ej '<%=button1.UniqueID%>'
- *                               Si se indica un objeto o un array de objetos de tipo botón, se crearán esos botones. 
+ *                               Si se indica un objeto o un array de objetos de tipo botón, se crearán esos botones.
+ *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform, haremos {'funcion':'<%=miBoton2.UniqueID%>', 'texto:'Postback Pag Principal'}
  *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de un iframe, haremos {'funcion':'<%=miBoton.UniqueID%>', 'texto:''Postback Iframe', 'contexto:' window}
- *                                  P.ej: Si queremos crear un botón que llame a un postback de un webform de la página principal, haremos {'funcion':'<%=miBoton2.UniqueID%>', 'texto:'Postback Pag Principal'}
  *                                  P.ej: También podemos indicar una lista de botones [{'funcion':'cerrar', 'texto:''Salir'},{'funcion':'cerrar', 'texto:''Salir2'}]
  *              boton2 - Igual que boton1
  *                              
@@ -54,7 +54,7 @@
  *                      mensaje:'Mensaje Personalizado',          // Mensaje de la ventana
  *                      ancho: 300,                               // Ancho en píxeles de la ventana
  *                      alto: 250,                                // Alto en píxeles de la ventana
- *                      icono: $.ventanaModal.imagen('info'),     // clase css con el icono que queremos mostrar. Pueden ser siNo, alerta, ok, error, info, o una clase personalizada.
+ *                      icono: $.ventanaModal('imagen','info'),   // clase css con el icono que queremos mostrar. Pueden ser siNo, alerta, ok, error, info, o una clase personalizada.
  *                                                                // Si queremos un icono personalizado debemos crear una clase css p.ej .ventanaModalMiIcono{ background: url('imagenes/miIcono.png')}
  *                                                                // y asignarla. icono: 'ventanaModalMiIcono'  
  *                       botones:[                                // Lista de botones. Debemos indicar la función y el texto del botón. {'funcion':'', 'texto:' '' , 'contexto:''}
@@ -94,16 +94,21 @@
  *  --------------------------------------------------------------------------------------------------------------------------------------------
  *  Ejemplos de uso:
  *  --------------------------------------------------------------------------------------------------------------------------------------------
- * 
- *  En la etiqueta onclick de un elemento html:
- *  <input type ="button" value="OK" onclick="$.ventanaModal()" />
- *  <input type ="button" runat="server" value="OK" onclientclick="$.ventanaModal()" />
  *
- *  Mediante un selector jQuery:
- *  $('#myButton').ventanaModal( 'alerta' , 'Al hacer click hará el postback de button1', 'Título', '<%=button1.UniqueID%>')
+ *  Crear una ventana personalizada:
+ *  $.ventanaModal('siNo','Mi mensaje', 'Mi título', {'funcion':'<%=miBoton1.UniqueID%>', 'texto:'Texto boton1'},{'funcion':'<%=miBoton2.UniqueID%>', 'texto:'Texto boton2'} )
  *
- *  Llamándolo desde una función C# (Page_Load e.t.c)
- *  ClientScript.RegisterClientScriptBlock(GetType(), "Javascript", "<script>$.ventanaModal('alerta','Mensaje', 'Título')</script>");
+ *  Puede llamarse a la función de múltiples modos:
+ *
+ *      En la etiqueta onclick de un elemento html:
+ *      <input type ="button" value="OK" onclick="$.ventanaModal()" />
+ *      <input type ="button" runat="server" value="OK" onclientclick="$.ventanaModal()" />
+ *
+ *      Mediante un selector jQuery:
+ *      $('#myButton').ventanaModal( 'alerta' , 'Al hacer click hará el postback de button1', 'Título', '<%=button1.UniqueID%>')
+ *
+ *      Llamándolo desde una función C# (Page_Load e.t.c)
+ *      ClientScript.RegisterClientScriptBlock(GetType(), "Javascript", "<script>$.ventanaModal('alerta','Mensaje', 'Título')</script>");
 */  
 
 ;(function (window, document, $) {
