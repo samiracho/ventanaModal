@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	sleep(1);
 	if( isset($_POST['mi_texto']) )
 	{

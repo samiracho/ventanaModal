@@ -1,15 +1,17 @@
-<!DOCTYPE html>
+Ôªø<!DOCTYPE html>
 <html>
 
 	<head>
-		<meta http-equiv="Cache-control" content="private">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="content-type" content="text/css; charset=utf-8"/>
+		<meta http-equiv="Content-type" content="text/javascript; charset=utf-8" />	
 		<link rel="stylesheet" type="text/css" href="ventana-modal.css" />
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="min.js"></script>		
 		<script type="text/javascript">		
 			var men = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis felis venenatis nisl pellentesque scelerisque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae dolor in ligula sodales aliquam. Sed viverra arcu nec arcu vehicula in fermentum lectus rhoncus. Nullam sed odio mauris. Praesent ullamcorper pellentesque justo vitae lobortis. Duis turpis purus, fermentum a luctus et, blandit nec arcu. Vestibulum quis enim vel turpis dignissim luctus. Donec commodo congue tempor. Donec leo leo, consequat quis vulputate vel, tristique et lectus. Nam euismod scelerisque posuere. Suspendisse potenti";
 			
-			function __doPostBack(myId){alert('Postback de un elemento de la p·gina principal '+myId)};
+			function __doPostBack(myId){alert('Postback de un elemento de la p√°gina principal '+myId)};
 			
 			$(function() {
      
@@ -48,11 +50,11 @@
 					});
 				});
 				
-				$('#myButton7').ventanaModal( 'iframe' , 'formulario.php', 'Mi Iframe (el tÌtulo es opcional)', 'cerrar');
+				$('#myButton7').ventanaModal( 'iframe' , 'formulario.php', 'Mi Iframe (el t√≠tulo es opcional)', 'cerrar');
 				
 				$('#myButton8').ventanaModal( 'iframe' , 'iframe.html');
 				
-				$('#myButton9').ventanaModal( { tipo:'iframe', mensaje:'http://www.microsoft.es',titulo:'Mi iframe personalizado', botones:[{ funcion: 'cerrar', texto:'BotÛn Salir Personalizado' }] } );
+				$('#myButton9').ventanaModal( { tipo:'iframe', mensaje:'http://www.microsoft.es',titulo:'Mi iframe personalizado', botones:[{ funcion: 'cerrar', texto:'Bot√≥n Salir Personalizado' }] } );
 				
 				$('#myButton10').on('click', function(){
 				
@@ -74,12 +76,12 @@
 		<input id="myButton" type ="button" value="Alerta" />
 		<input id="myButton1" type ="button" value="OK" />
 		<input id="myButton2" type ="button" value="Confirmacion" />
-		<input id="myButton3" type ="button" value="M·scara de carga" />
+		<input id="myButton3" type ="button" value="M√°scara de carga" />
 		<input id="myButton4" type ="button" value="Error" />
 		<input id="myButton5" type ="button" value="Info" />
 		<input type ="button" value="etiqueta onclick" onclick="$.ventanaModal()" />
-		<input id="myButton6" type ="button" value="Personalizada sin tÌtulo" />
-		<input id="myButton7" type ="button" value="Probando iframe con m·scara de carga" />
+		<input id="myButton6" type ="button" value="Personalizada sin t√≠tulo" />
+		<input id="myButton7" type ="button" value="Probando iframe con m√°scara de carga" />
 		<input id="myButton8" type ="button" value="Solo Iframe" />
 		<input id="myButton9" type ="button" value="Iframe personalizado" />
 		<input id="myButton10" type ="button" value="Lanzar Prueba Stress" />
